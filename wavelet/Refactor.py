@@ -16,7 +16,7 @@ class Refactor(nn.Module):
     
     def forward(self, x):
         N, C, H, W = x.size()
-        new_C = int(C / factor)
-        new_H = int(H * factor)
+        new_C = int(C / self.factor)
+        new_H = int(H * self.factor)
 
         return x.view(N, new_C, new_H, W)
