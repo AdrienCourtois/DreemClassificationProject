@@ -106,8 +106,8 @@ class DreemDataset:
         # Reshape the input signal so that it is
         # of shape [nb_data, nb_signals, signal_size]
 
-        self.X_train = self.X_train.reshape(self.nb_data, self.nb_signals, self.signal_size)
-        self.X_test = self.X_test.reshape(self.nb_data, self.nb_signals, self.signal_size)
+        self.X_train = self.X_train.reshape(self.X_train.shape[0], self.nb_signals, self.signal_size)
+        self.X_test = self.X_test.reshape(self.X_train.shape[0], self.nb_signals, self.signal_size)
     
     def normalize(self):
         # Normalize and reduce the dataset
