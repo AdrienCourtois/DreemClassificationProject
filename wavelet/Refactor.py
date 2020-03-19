@@ -9,12 +9,14 @@ import torch
 import torch.nn as nn
 
 class Refactor(nn.Module):
-    def __init__(self):
+    def __init__(self, factor):
         super().__init__()
+
+        self.factor = factor
     
     def forward(self, x):
         N, C, H, W = x.size()
-        new_C = int(C / 7)
-        new_H = int(H * 7)
+        new_C = int(C / factor)
+        new_H = int(H * factor)
 
         return x.view(N, new_C, new_H, W)
