@@ -59,6 +59,8 @@ class DreemDataset:
         if separated:
             self.X_train, self.y_train = self.separate(self.X_train, self.y_train)
             self.X_test, self.y_test = self.separate(self.X_test, self.y_test)
+        else:
+            self.not_separate()
     
     def balance(self):
         # Balance the dataset so that
@@ -99,6 +101,13 @@ class DreemDataset:
         idx = np.random.permutation(len(new_X))
 
         return new_X[idx], new_Y[idx]
+    
+    def not_separate(self):
+        # Reshape the input signal so that it is
+        # of shape [nb_data, nb_signals, signal_size]
+
+        self.X_train = self.X_train.reshape(self.nb_data, self.nb_signals, self.signal_size)
+        self.X_test = self.X_test.reshape(self.nb_data, self.nb_signals, self.signal_size)
     
     def normalize(self):
         # Normalize and reduce the dataset
