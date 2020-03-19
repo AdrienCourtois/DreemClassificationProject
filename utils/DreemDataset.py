@@ -13,6 +13,7 @@ This is not a PyTorch Dataset.
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import h5py
 
 class DreemDataset:
     def __init__(self, DIR, normalize=True, balanced=True, separated=False):
