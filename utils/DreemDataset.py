@@ -16,7 +16,7 @@ from sklearn.model_selection import train_test_split
 import h5py
 
 class DreemDataset:
-    def __init__(self, DIR, normalize=True, balanced=True, separated=False):
+    def __init__(self, DIR, normalize=True, balanced=True, separated=False, refactor=True):
         # Class Dataset, contains the train and test dataset
         # and every function needed to split, normalize, etc.
         # -
@@ -25,6 +25,7 @@ class DreemDataset:
         # normalize (bool): True is the data had to be centered and reduced
         # balanced (bool): True if the dataset has to be balanced
         # separated (bool): True if the signals have to be split by patient
+        # refactor (bool): True if the input signals of each captors has to be agregated - not compatible with separated.
 
         # Dataset
         self.X = np.array(h5py.File(DIR + "X_train.h5", "r")["features"])
@@ -41,9 +42,6 @@ class DreemDataset:
         self.X_train = self.X_test = None
         self.y_train = self.y_test = None
 
-        self.balanced = balanced
-        self.separated = separated
-
         # Create balance
         if balanced:
             self.balance()
@@ -59,8 +57,10 @@ class DreemDataset:
         if separated:
             self.X_train, self.y_train = self.separate(self.X_train, self.y_train)
             self.X_test, self.y_test = self.separate(self.X_test, self.y_test)
-        else:
-            self.not_separate()
+        
+        # Refactor
+        if refactor:
+            self.refactor()
     
     def balance(self):
         # Balance the dataset so that
@@ -102,7 +102,7 @@ class DreemDataset:
 
         return new_X[idx], new_Y[idx]
     
-    def not_separate(self):
+    def refactor(self):
         # Reshape the input signal so that it is
         # of shape [nb_data, nb_signals, signal_size]
 
