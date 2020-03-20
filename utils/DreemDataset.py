@@ -130,7 +130,7 @@ class DreemDataset:
         n = len(self.X_train)
 
         for i in range(n):
-            idx = np.random.randint(0, len(n), batch_size)
+            idx = np.random.randint(0, n, batch_size)
             x, y = self.X_train[idx], self.y_train[idx]
 
             # data augmentation
