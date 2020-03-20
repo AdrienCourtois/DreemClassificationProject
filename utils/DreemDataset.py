@@ -17,15 +17,17 @@ import h5py
 
 class DreemDataset:
     def __init__(self, DIR, normalize=True, balanced=True, separated=False, refactor=True):
-        # Class Dataset, contains the train and test dataset
-        # and every function needed to split, normalize, etc.
-        # -
-        # Args:
-        # DIR (string): directory where X_train.h5 and y_train.csv are located
-        # normalize (bool): True is the data had to be centered and reduced
-        # balanced (bool): True if the dataset has to be balanced
-        # separated (bool): True if the signals have to be split by patient
-        # refactor (bool): True if the input signals of each captors has to be agregated - not compatible with separated.
+        """
+        Class Dataset, contains the train and test dataset
+        and every function needed to split, normalize, etc.
+        
+        Args:
+            DIR (string): directory where X_train.h5 and y_train.csv are located
+            normalize (bool): True is the data had to be centered and reduced
+            balanced (bool): True if the dataset has to be balanced
+            separated (bool): True if the signals have to be split by patient
+            refactor (bool): True if the input signals of each captors has to be agregated - not compatible with separated.
+        """
 
         # Dataset
         self.X = np.array(h5py.File(DIR + "X_train.h5", "r")["features"])
