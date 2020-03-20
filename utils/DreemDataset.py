@@ -61,7 +61,7 @@ class DreemDataset:
             self.X_test, self.y_test = self.separate(self.X_test, self.y_test)
         
         # Refactor
-        if refactor:
+        if not separated and refactor:
             self.refactor()
     
     def balance(self):
@@ -125,3 +125,36 @@ class DreemDataset:
 
         self.X_train, self.X_test, self.y_train, self.y_test = \
             train_test_split(self.X, self.y, test_size=0.2, shuffle=True, random_state=42)
+    
+    def iter_train(self, batch_size, gaussian=True, crop=True, gaussian_sigma=0.01, crop_size=128):
+        n = len(self.X_train)
+
+        for i in range(n):
+            idx = np.random.randint(0, len(n), batch_size)
+            x, y = self.X_train[idx], self.y_train[idx]
+
+            # data augmentation
+            if gaussian:
+                x = x + np.random.normal(0, gaussian_sigma, size=x.shape)
+            
+            if crop:
+                # [batch_size, 40*7, 500]
+                s = x.shape
+                z = np.zeros((s[0]*s[1], crop_size))
+                x = x.reshape((-1, s[2]))
+
+                for k in range(len(x)):
+                    crop_idx = np.random.randint(0, s[2]-crop_size)
+                    z[k] = x[k, crop_idx:crop_idx+crop_size]
+                
+                x = z.reshape((s[0], s[1], crop_size))
+
+            yield x, y
+
+    def iter_test(self, batch_size):
+        n = len(self.X_test)
+
+        for i in range(0, n, batch_size):
+            x, y = self.X_test[i:i+batch_size], self.y_test[i:i+batch_size]
+
+            yield x, y
