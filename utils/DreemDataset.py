@@ -151,10 +151,21 @@ class DreemDataset:
 
             yield x, y
 
-    def iter_test(self, batch_size):
+    def iter_test(self, batch_size, crop=True, crop_size=128):
         n = len(self.X_test)
 
         for i in range(0, n, batch_size):
             x, y = self.X_test[i:i+batch_size], self.y_test[i:i+batch_size]
+
+            if crop:
+                s = x.shape 
+                z = np.zeros((s[0]*s[1], crop_size))
+                x = x.reshape((-1, s[2]))
+
+                for k in range(len(x)):
+                    crop_idx = np.random.randint(0, s[2]-crop_size)
+                    z[k] = x[k, crop_idx:crop_idx+crop_size]
+                
+                x = z.reshape((s[0], s[1], crop_size))
 
             yield x, y
