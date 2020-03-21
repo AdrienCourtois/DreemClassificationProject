@@ -7,9 +7,6 @@ metric = MetricManager()
 metric.update(y_pred, y_true)
 print(metric.accuracy)
 metric.reset()
-
-Note:
-This is not a PyTorch Dataset.
 '''
 
 import torch

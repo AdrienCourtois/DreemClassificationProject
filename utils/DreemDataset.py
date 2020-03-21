@@ -129,7 +129,7 @@ class DreemDataset:
     def iter_train(self, batch_size, gaussian=True, crop=True, gaussian_sigma=0.01, crop_size=128):
         n = len(self.X_train)
 
-        for i in range(n):
+        for i in range(0, n, batch_size):
             idx = np.random.randint(0, n, batch_size)
             x, y = self.X_train[idx], self.y_train[idx]
 
