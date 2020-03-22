@@ -137,7 +137,7 @@ class DreemDataset:
             if shuffle:
                 # [40*7, 500]
                 x = x.reshape((batch_size, 40, 7, 500))
-                new_x = torch.zeros(x.shape)
+                new_x = np.zeros(x.shape)
                 for k in range(batch_size):
                     for l in range(7):
                         permut = np.random.permutation(40)
