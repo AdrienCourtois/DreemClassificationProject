@@ -126,7 +126,7 @@ class DreemDataset:
         self.X_train, self.X_test, self.y_train, self.y_test = \
             train_test_split(self.X, self.y, test_size=0.2, shuffle=True, random_state=42)
     
-    def iter_train(self, batch_size, suffle=True):
+    def iter_train(self, batch_size, shuffle=True):
         n = len(self.X_train)
 
         for i in range(0, n, batch_size):
